@@ -28,16 +28,10 @@ jobs:
       - name: Build
         run: npm run build
 
-      - name: Configure Pages
-        # bump to a newer major in case older releases depend on deprecated actions/upload-artifact@v3
-        uses: actions/configure-pages@v4
-
-      - name: Upload artifact for GitHub Pages
-        # use latest major to avoid workflows that internally reference the deprecated upload-artifact v3
-        uses: actions/upload-pages-artifact@v2
+      - name: Deploy to GitHub Pages (gh-pages branch)
+        # Using peaceiris/actions-gh-pages to publish ./dist directly to gh-pages branch
+        # This avoids any indirect dependency on actions/upload-artifact@v3
+        uses: peaceiris/actions-gh-pages@v3
         with:
-          # Vite outputs to `dist` by default
-          path: ./dist
-
-      - name: Deploy to GitHub Pages
-        uses: actions/deploy-pages@v1
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./dist
