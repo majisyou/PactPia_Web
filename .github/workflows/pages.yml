@@ -29,10 +29,12 @@ jobs:
         run: npm run build
 
       - name: Configure Pages
-        uses: actions/configure-pages@v3
+        # bump to a newer major in case older releases depend on deprecated actions/upload-artifact@v3
+        uses: actions/configure-pages@v4
 
       - name: Upload artifact for GitHub Pages
-        uses: actions/upload-pages-artifact@v1
+        # use latest major to avoid workflows that internally reference the deprecated upload-artifact v3
+        uses: actions/upload-pages-artifact@v2
         with:
           # Vite outputs to `dist` by default
           path: ./dist
